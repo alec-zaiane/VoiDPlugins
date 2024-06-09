@@ -18,7 +18,7 @@ namespace VoiDPlugins.Filter
         [Property("EMA Weight"), DefaultPropertyValue(0.5f), ToolTip
         (
             "Default: 0.5\n\n" +
-            "Defines the weight of the latest sample against previous ones [Range: 0.0 - 1.0] :)\n" +
+            "Defines the weight of the latest sample against previous ones [Range: 0.0 - 1.0]\n" +
             "  Lower == More hardware smoothing removed\n" +
             "  1 == No effect"
         )]
@@ -31,7 +31,7 @@ namespace VoiDPlugins.Filter
         [Property("Big Movement Cutoff"), DefaultPropertyValue(-1f), ToolTip
         (
             "Default: -1\n\n" +
-            "Any move larger than this will not be smoothed, use with relative mode.\n" +
+            "Any move larger than this will not be smoothed, use with relative output mode.\n" +
             "  -1 == No effect"
         )]
         public float BigMovementCutoff
