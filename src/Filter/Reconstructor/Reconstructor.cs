@@ -11,6 +11,7 @@ namespace VoiDPlugins.Filter
     {
         private Vector2? lastAvg;
         private float weight;
+        private float bigMovementCutoff;
 
         [Property("EMA Weight"), DefaultPropertyValue(0.5f), ToolTip
         (
@@ -19,10 +20,23 @@ namespace VoiDPlugins.Filter
             "  Lower == More hardware smoothing removed\n" +
             "  1 == No effect"
         )]
+        [Property("Big Movement Cutoff"), DefaultPropertyValue(-1f), ToolTip
+        (
+            "Default: -1\n\n" +
+            "Any move larger than this will not be smoothed, use with relative mode.\n" +
+            "  -1 == No effect\n" +
+        )]
+
         public float EMAWeight
         {
             set => weight = Math.Clamp(value, 0, 1);
             get => weight;
+        }
+
+        public float BigMovementCutoff
+        {
+            set => bigMovementCutoff = Math.Max(0, value);
+            get => bigMovementCutoff;
         }
 
         public event Action<IDeviceReport>? Emit;
@@ -44,6 +58,8 @@ namespace VoiDPlugins.Filter
 
         private static Vector2 ReverseEMAFunc(Vector2 currentEMA, Vector2 lastEMA, float weight)
         {
+            if (bigMovementCutoff != -1 && Vector2.Distance(currentEMA, lastEMA) > bigMovementCutoff)
+                return currentEMA;
             return ((currentEMA - lastEMA) / weight) + lastEMA;
         }
     }
